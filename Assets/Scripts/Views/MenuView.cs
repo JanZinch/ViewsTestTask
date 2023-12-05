@@ -1,6 +1,7 @@
 ﻿using System;
 using Factories;
 using Models;
+using Progress;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,17 +10,22 @@ namespace Views
     public class MenuView : BaseView
     {
         [SerializeField] private Button _playButton;
-        
         [SerializeField] private Button _settingsButton;
         [SerializeField] private Button _dailyBonusButton;
         [SerializeField] private Button _shopButton;
 
+        [Space]
+        [SerializeField] private DailyBonusesContainer _dailyBonusesContainer;
+        
         private ViewsFactory _viewsFactory;
         private Settings _settings;
+        private ProgressService _progressService;
+        
 
         private void Awake()
         {
             _settings = new Settings();
+            _progressService = new ProgressService();
         }
 
         public MenuView InjectDependencies(ViewsFactory viewsFactory)
@@ -48,7 +54,7 @@ namespace Views
         
         private void ShowDailyBonuses()
         {
-            _viewsFactory.ShowView<DailyBonusPresenter>();
+            _viewsFactory.ShowView<DailyBonusPresenter>().InjectDependencies(_progressService, _dailyBonusesContainer);
         }
         
         private void ShowShop()

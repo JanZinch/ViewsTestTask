@@ -8,7 +8,7 @@ namespace Progress
 
         public ProgressService()
         {
-            
+            Model = new ProgressDataModel();
         }
 
     }

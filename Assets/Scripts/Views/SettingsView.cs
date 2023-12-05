@@ -1,5 +1,4 @@
-﻿using System;
-using Models;
+﻿using Models;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,7 +16,8 @@ namespace Views
         public SettingsView InjectDependencies(Settings settings)
         {
             _settings = settings;
-            UpdateView();
+            _musicToggle.isOn = _settings.IsMusicOn;
+            _soundsToggle.isOn = _settings.IsSoundsOn;
             return this;
         }
 
@@ -25,34 +25,26 @@ namespace Views
         {
             _closeButton.onClick.AddListener(Hide);
             _hideArea.onClick.AddListener(Hide);
-            _musicToggle.onValueChanged.AddListener(OnMusicToggleChanged);
-            _soundsToggle.onValueChanged.AddListener(OnSoundsToggleChanged);
+            _musicToggle.onValueChanged.AddListener(OnMusicStateChanged);
+            _soundsToggle.onValueChanged.AddListener(OnSoundsStateChanged);
         }
 
-        private void OnMusicToggleChanged(bool value)
+        private void OnMusicStateChanged(bool value)
         {
             _settings.IsMusicOn = value;
-            UpdateView();
         }
 
-        private void OnSoundsToggleChanged(bool value)
+        private void OnSoundsStateChanged(bool value)
         {
             _settings.IsSoundsOn = value;
-            UpdateView();
         }
-
-        private void UpdateView()
-        {
-            
-            
-        }
-
+        
         private void OnDisable()
         {
             _closeButton.onClick.RemoveListener(Hide);
             _hideArea.onClick.RemoveListener(Hide);
-            _musicToggle.onValueChanged.RemoveListener(OnMusicToggleChanged);
-            _soundsToggle.onValueChanged.RemoveListener(OnSoundsToggleChanged);
+            _musicToggle.onValueChanged.RemoveListener(OnMusicStateChanged);
+            _soundsToggle.onValueChanged.RemoveListener(OnSoundsStateChanged);
         }
     }
 }

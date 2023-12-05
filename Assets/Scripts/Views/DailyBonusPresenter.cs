@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Models;
 using Progress;
 using UnityEngine;
@@ -8,6 +9,7 @@ namespace Views
 {
     public class DailyBonusPresenter : BaseView
     {
+        [SerializeField] private Button _hideArea;
         [SerializeField] private Slider _progressSlider;
         [SerializeField] private List<DailyBonusView> _dailyBonusViews;
         
@@ -24,6 +26,11 @@ namespace Views
             return this;
         }
 
+        private void OnEnable()
+        {
+            _hideArea.onClick.AddListener(Hide);
+        }
+
         private void UpdateView()
         {
             _progressSlider.value = _progressService.Model.LastReceivedBonus.Index;
@@ -34,6 +41,11 @@ namespace Views
                     .InjectDependencies(_dailyBonusesContainer.GetBonusByIndex(i))
                     .SetDayIndex(i);
             }
+        }
+        
+        private void OnDisable()
+        {
+            _hideArea.onClick.RemoveListener(Hide);
         }
     }
 }
