@@ -48,7 +48,7 @@ namespace Views
         
         private void ShowDailyBonuses()
         {
-            _viewsFactory.ShowView<DailyBonusView>();
+            _viewsFactory.ShowView<DailyBonusPresenter>();
         }
         
         private void ShowShop()

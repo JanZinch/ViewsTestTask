@@ -2,12 +2,14 @@
 using InAppResources;
 using Newtonsoft.Json;
 
-namespace Models
+namespace Progress
 {
     public class ProgressDataModel
     {
         [JsonProperty] private Dictionary<ResourceType, double> _resources = new Dictionary<ResourceType, double>();
         
+        public LastReceivedBonusData LastReceivedBonus { get; private set; }
+
         public double GetResourceAmount(ResourceType resourceType)
         {
             if (_resources.TryGetValue(resourceType, out var amount))
@@ -26,5 +28,6 @@ namespace Models
             
             //DemandSave();
         }
+        
     }
 }
