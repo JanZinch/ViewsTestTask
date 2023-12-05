@@ -1,5 +1,6 @@
 ﻿using System;
 using Factories;
+using Models;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,7 +15,13 @@ namespace Views
         [SerializeField] private Button _shopButton;
 
         private ViewsFactory _viewsFactory;
-        
+        private Settings _settings;
+
+        private void Awake()
+        {
+            _settings = new Settings();
+        }
+
         public MenuView InjectDependencies(ViewsFactory viewsFactory)
         {
             _viewsFactory = viewsFactory;
@@ -36,7 +43,7 @@ namespace Views
         
         private void ShowSettings()
         {
-            _viewsFactory.ShowView<SettingsView>();
+            _viewsFactory.ShowView<SettingsView>().InjectDependencies(_settings);
         }
         
         private void ShowDailyBonuses()
