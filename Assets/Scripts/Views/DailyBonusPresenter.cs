@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Bonuses;
 using Factories;
+using Models;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -54,7 +55,7 @@ namespace Views
 
         private void UpdateView()
         {
-            _progressSlider.value = _dailyBonusService.LastReceivedBonusIndex;
+            _progressSlider.value = _dailyBonusService.LastReceivedBonusIndex + 1;
 
             foreach (DailyBonusView view in _dailyBonusViews)
             {

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using InAppResources;
 using Newtonsoft.Json;
 
@@ -7,8 +8,9 @@ namespace Progress
     public class ProgressDataModel
     {
         [JsonProperty] private Dictionary<ResourceType, double> _resources = new Dictionary<ResourceType, double>();
-        
-        public BonusInfo LastReceivedBonus { get; private set; }
+        [JsonProperty] private BonusInfo _lastReceivedBonus = new BonusInfo(-1, new DateTime());
+
+        [JsonIgnore] public BonusInfo LastReceivedBonus => _lastReceivedBonus;
 
         public ProgressDataModel()
         {
@@ -37,7 +39,7 @@ namespace Progress
 
         public void AppendReceivedBonus(BonusInfo bonusInfo)
         {
-            LastReceivedBonus = bonusInfo;
+            _lastReceivedBonus = bonusInfo;
             
             //DemandSave();
         }

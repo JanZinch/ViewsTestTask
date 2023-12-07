@@ -1,6 +1,7 @@
 ﻿using System;
 using Bonuses;
 using Factories;
+using InAppResources;
 using Models;
 using Progress;
 using UnityEngine;
@@ -10,11 +11,12 @@ namespace Views
 {
     public class MenuView : BaseView
     {
+        [SerializeField] private ResourceCounter _resourceCounter;
         [SerializeField] private Button _playButton;
         [SerializeField] private Button _settingsButton;
         [SerializeField] private Button _dailyBonusButton;
         [SerializeField] private Button _shopButton;
-
+        
         [Space]
         [SerializeField] private DailyBonusesContainer _dailyBonusesContainer;
         
@@ -23,11 +25,17 @@ namespace Views
         private ProgressDataModel _progressDataModel;
         private DailyBonusService _dailyBonusService;
 
+        private ResourceService _resourceService;
+        
         private void Awake()
         {
             _settings = new Settings();
             _progressDataModel = new ProgressDataModel();
-            _dailyBonusService = new DailyBonusService(_progressDataModel, _dailyBonusesContainer);
+            
+            _resourceService = new ResourceService(_progressDataModel);
+            _dailyBonusService = new DailyBonusService(_progressDataModel, _dailyBonusesContainer, _resourceService);
+            
+            _resourceCounter.InjectDependencies(_resourceService);
         }
 
         public MenuView InjectDependencies(ViewsFactory viewsFactory)

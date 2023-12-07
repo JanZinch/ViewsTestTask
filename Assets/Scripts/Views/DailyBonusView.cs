@@ -40,6 +40,8 @@ namespace Views
 
         private void OnClickInvoke()
         {
+            Debug.Log($"Index: {_index}");
+            
             OnClick?.Invoke(_index);
         }
 
