@@ -54,7 +54,7 @@ namespace Views
         
         private void ShowDailyBonuses()
         {
-            _viewsFactory.ShowView<DailyBonusPresenter>().InjectDependencies(_progressService, _dailyBonusesContainer);
+            _viewsFactory.ShowView<DailyBonusPresenter>().InjectDependencies(_viewsFactory, _progressService, _dailyBonusesContainer);
         }
         
         private void ShowShop()

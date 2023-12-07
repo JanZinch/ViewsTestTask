@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Factories;
 using Models;
 using Progress;
 using UnityEngine;
@@ -12,12 +13,14 @@ namespace Views
         [SerializeField] private Button _hideArea;
         [SerializeField] private Slider _progressSlider;
         [SerializeField] private List<DailyBonusView> _dailyBonusViews;
-        
+
+        private ViewsFactory _viewsFactory;
         private ProgressService _progressService;
         private DailyBonusesContainer _dailyBonusesContainer;
         
-        public DailyBonusPresenter InjectDependencies(ProgressService progressService, DailyBonusesContainer dailyBonusesContainer)
+        public DailyBonusPresenter InjectDependencies(ViewsFactory viewsFactory, ProgressService progressService, DailyBonusesContainer dailyBonusesContainer)
         {
+            _viewsFactory = viewsFactory;
             _progressService = progressService;
             _dailyBonusesContainer = dailyBonusesContainer;
             

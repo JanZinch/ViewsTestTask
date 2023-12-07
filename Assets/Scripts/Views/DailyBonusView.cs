@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace Views
 {
-    public class DailyBonusView : MonoBehaviour
+    public class DailyBonusView : BaseView
     {
         [SerializeField] private TextMeshProUGUI _headerText;
         [SerializeField] private Image _resourceIcon;
