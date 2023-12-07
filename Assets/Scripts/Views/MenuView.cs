@@ -2,6 +2,7 @@
 using Bonuses;
 using Factories;
 using InAppResources;
+using Levels;
 using Models;
 using Progress;
 using UnityEngine;
@@ -58,7 +59,7 @@ namespace Views
 
         private void Play()
         {
-
+            _viewsFactory.ShowView<LevelMapView>().Initialize(_progressDataModel);
         }
         
         private void ShowSettings()

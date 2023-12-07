@@ -9,8 +9,10 @@ namespace Progress
     {
         [JsonProperty] private Dictionary<ResourceType, double> _resources = new Dictionary<ResourceType, double>();
         [JsonProperty] private BonusInfo _lastReceivedBonus = new BonusInfo(-1, new DateTime());
-
+        [JsonProperty] private int _currentLevelIndex;
+        
         [JsonIgnore] public BonusInfo LastReceivedBonus => _lastReceivedBonus;
+        [JsonIgnore] public int CurrentLevelIndex => _currentLevelIndex;
 
         public event Action OnDemandSave;
         
@@ -41,6 +43,12 @@ namespace Progress
         public void AppendReceivedBonus(BonusInfo bonusInfo)
         {
             _lastReceivedBonus = bonusInfo;
+            DemandSave();
+        }
+
+        public void OpenNextLevel()
+        {
+            _currentLevelIndex++;
             DemandSave();
         }
 
