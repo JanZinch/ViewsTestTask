@@ -12,6 +12,9 @@ namespace Progress
 
         [JsonIgnore] public BonusInfo LastReceivedBonus => _lastReceivedBonus;
 
+        public event Action OnDemandSave;
+        
+        
         public ProgressDataModel()
         {
             // Read data
@@ -32,18 +35,19 @@ namespace Progress
         public void SetResourceAmount(ResourceType resourceType, double amount)
         {
             _resources[resourceType] = amount;
-            
-            //DemandSave();
+            DemandSave();
         }
-
-
+        
         public void AppendReceivedBonus(BonusInfo bonusInfo)
         {
             _lastReceivedBonus = bonusInfo;
-            
-            //DemandSave();
+            DemandSave();
         }
 
+        public void DemandSave()
+        {
+            OnDemandSave?.Invoke();
+        }
 
     }
 }

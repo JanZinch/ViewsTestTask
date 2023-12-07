@@ -1,4 +1,5 @@
 using Factories;
+using Progress;
 using UnityEngine;
 using Views;
 

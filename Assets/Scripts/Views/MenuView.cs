@@ -30,10 +30,14 @@ namespace Views
         private void Awake()
         {
             _settings = new Settings();
-            _progressDataModel = new ProgressDataModel();
+            
+            ProgressDataAdapter progressDataAdapter = new ProgressDataAdapter();
+            _progressDataModel = progressDataAdapter.GetProgressModel();
             
             _resourceService = new ResourceService(_progressDataModel);
             _dailyBonusService = new DailyBonusService(_progressDataModel, _dailyBonusesContainer, _resourceService);
+            
+            
             
             _resourceCounter.InjectDependencies(_resourceService);
         }
