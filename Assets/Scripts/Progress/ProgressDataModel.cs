@@ -8,7 +8,12 @@ namespace Progress
     {
         [JsonProperty] private Dictionary<ResourceType, double> _resources = new Dictionary<ResourceType, double>();
         
-        public LastReceivedBonusData LastReceivedBonus { get; private set; }
+        public BonusInfo LastReceivedBonus { get; private set; }
+
+        public ProgressDataModel()
+        {
+            // Read data
+        }
 
         public double GetResourceAmount(ResourceType resourceType)
         {
@@ -28,6 +33,15 @@ namespace Progress
             
             //DemandSave();
         }
-        
+
+
+        public void AppendReceivedBonus(BonusInfo bonusInfo)
+        {
+            LastReceivedBonus = bonusInfo;
+            
+            //DemandSave();
+        }
+
+
     }
 }

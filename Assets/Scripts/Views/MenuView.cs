@@ -1,4 +1,5 @@
 ﻿using System;
+using Bonuses;
 using Factories;
 using Models;
 using Progress;
@@ -19,13 +20,14 @@ namespace Views
         
         private ViewsFactory _viewsFactory;
         private Settings _settings;
-        private ProgressService _progressService;
-        
+        private ProgressDataModel _progressDataModel;
+        private DailyBonusService _dailyBonusService;
 
         private void Awake()
         {
             _settings = new Settings();
-            _progressService = new ProgressService();
+            _progressDataModel = new ProgressDataModel();
+            _dailyBonusService = new DailyBonusService(_progressDataModel, _dailyBonusesContainer);
         }
 
         public MenuView InjectDependencies(ViewsFactory viewsFactory)
@@ -54,7 +56,7 @@ namespace Views
         
         private void ShowDailyBonuses()
         {
-            _viewsFactory.ShowView<DailyBonusPresenter>().InjectDependencies(_viewsFactory, _progressService, _dailyBonusesContainer);
+            _viewsFactory.ShowView<DailyBonusPresenter>().InjectDependencies(_viewsFactory, _dailyBonusService);
         }
         
         private void ShowShop()

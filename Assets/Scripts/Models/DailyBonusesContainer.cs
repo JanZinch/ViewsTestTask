@@ -9,6 +9,8 @@ namespace Models
     {
         [SerializeField] private List<DailyBonus> _dailyBonuses;
 
+        public int AllBonusesCount => _dailyBonuses.Count;
+        
         public DailyBonus GetBonusByIndex(int bonusIndex)
         {
             if (bonusIndex < 0 || bonusIndex >= _dailyBonuses.Count)
@@ -22,8 +24,6 @@ namespace Models
             {
                 return _dailyBonuses[bonusIndex];
             }
-
-            
         }
 
     }

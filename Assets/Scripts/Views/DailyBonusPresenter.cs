@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Bonuses;
 using Factories;
-using Models;
-using Progress;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,15 +13,20 @@ namespace Views
         [SerializeField] private List<DailyBonusView> _dailyBonusViews;
 
         private ViewsFactory _viewsFactory;
-        private ProgressService _progressService;
-        private DailyBonusesContainer _dailyBonusesContainer;
+        private DailyBonusService _dailyBonusService;
         
-        public DailyBonusPresenter InjectDependencies(ViewsFactory viewsFactory, ProgressService progressService, DailyBonusesContainer dailyBonusesContainer)
+        public DailyBonusPresenter InjectDependencies(ViewsFactory viewsFactory, DailyBonusService dailyBonusService)
         {
             _viewsFactory = viewsFactory;
-            _progressService = progressService;
-            _dailyBonusesContainer = dailyBonusesContainer;
+            _dailyBonusService = dailyBonusService;
             
+            for (int i = 0; i < _dailyBonusViews.Count; i++)
+            {
+                _dailyBonusViews[i]
+                    .InjectDependencies(_dailyBonusService.Container.GetBonusByIndex(i))
+                    .SetDayIndex(i);
+            }
+
             UpdateView();
             
             return this;
@@ -32,23 +35,49 @@ namespace Views
         private void OnEnable()
         {
             _hideArea.onClick.AddListener(Hide);
+
+            foreach (DailyBonusView view in _dailyBonusViews)
+            {
+                view.OnClick += OnBonusViewClick;
+            }
+        }
+
+        private void OnBonusViewClick(int bonusIndex)
+        {
+            _dailyBonusService.AcceptAvailableBonus();
+            
+            /*_viewsFactory.ShowView<CongratsDailyBonusView>()
+                .Initialize(bonusIndex, _dailyBonusesContainer.GetBonusByIndex(bonusIndex));*/
+            
+            Hide();
         }
 
         private void UpdateView()
         {
-            _progressSlider.value = _progressService.Model.LastReceivedBonus.Index;
-            
-            for (int i = 0; i < _dailyBonusViews.Count; i++)
+            _progressSlider.value = _dailyBonusService.LastReceivedBonusIndex;
+
+            foreach (DailyBonusView view in _dailyBonusViews)
             {
-                _dailyBonusViews[i]
-                    .InjectDependencies(_dailyBonusesContainer.GetBonusByIndex(i))
-                    .SetDayIndex(i);
+                view.IsAvailable = false;
             }
+            
+            int availableBonusIndex = _dailyBonusService.AvailableBonusIndex;
+
+            if (availableBonusIndex >= 0 && availableBonusIndex < _dailyBonusViews.Count)
+            {
+                _dailyBonusViews[availableBonusIndex].IsAvailable = true;
+            }
+            
         }
-        
+
         private void OnDisable()
         {
             _hideArea.onClick.RemoveListener(Hide);
+            
+            foreach (DailyBonusView view in _dailyBonusViews)
+            {
+                view.OnClick -= OnBonusViewClick;
+            }
         }
     }
 }
