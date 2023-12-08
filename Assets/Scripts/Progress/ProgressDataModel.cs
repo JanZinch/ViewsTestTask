@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using InAppResources;
 using Newtonsoft.Json;
+using Purchases;
 
 namespace Progress
 {
     public class ProgressDataModel
     {
         [JsonProperty] private Dictionary<ResourceType, double> _resources = new Dictionary<ResourceType, double>();
+        [JsonProperty] private Dictionary<PurchaseType, PurchaseState> _gamePurchaseStates = new Dictionary<PurchaseType, PurchaseState>();
+
         [JsonProperty] private BonusInfo _lastReceivedBonus = new BonusInfo(-1, new DateTime());
         [JsonProperty] private int _currentLevelIndex;
         
@@ -52,6 +55,21 @@ namespace Progress
             DemandSave();
         }
 
+        public PurchaseState GetGamePurchaseState(PurchaseType purchaseType)
+        {
+            if (_gamePurchaseStates.TryGetValue(purchaseType, out PurchaseState purchaseState))
+            {
+                return purchaseState;
+            }
+            
+            return PurchaseState.None;
+        }
+        
+        public void SetGamePurchaseState(PurchaseType purchaseType, PurchaseState purchaseState)
+        {
+            _gamePurchaseStates[purchaseType] = purchaseState;
+        }
+        
         public void DemandSave()
         {
             OnDemandSave?.Invoke();
