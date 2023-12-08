@@ -5,6 +5,7 @@ using InAppResources;
 using Levels;
 using Models;
 using Progress;
+using Purchases;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -27,6 +28,8 @@ namespace Views
         private DailyBonusService _dailyBonusService;
 
         private ResourceService _resourceService;
+
+        private GamePurchaseService _purchaseService;
         
         private void Awake()
         {
@@ -37,8 +40,8 @@ namespace Views
             
             _resourceService = new ResourceService(_progressDataModel);
             _dailyBonusService = new DailyBonusService(_progressDataModel, _dailyBonusesContainer, _resourceService);
-            
-            
+
+            _purchaseService = new GamePurchaseService(_resourceService, _progressDataModel);
             
             _resourceCounter.InjectDependencies(_resourceService);
         }
@@ -74,7 +77,7 @@ namespace Views
         
         private void ShowShop()
         {
-
+            _viewsFactory.ShowView<ShopView>().Initialize(_purchaseService);
         }
         
         private void OnDisable()
