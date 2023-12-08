@@ -8,6 +8,7 @@ namespace Levels
     public class LevelView : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI _numberTextMesh;
+        [SerializeField] private GameObject _lock;
         [SerializeField] private Button _completeButton;
 
         private int _levelIndex;
@@ -19,8 +20,10 @@ namespace Levels
         {
             _levelIndex = levelIndex;
             _isOpened = isOpened;
+
+            _lock.SetActive(!_isOpened);
+            _numberTextMesh.SetText(_isOpened ? (_levelIndex + 1).ToString() : string.Empty);
             
-            _numberTextMesh.SetText((_levelIndex + 1).ToString());
             return this;
         }
         

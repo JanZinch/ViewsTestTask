@@ -43,7 +43,7 @@ namespace Progress
 
         private void LoadProgressModel()
         {
-            string fullFileName = Path.Combine(_modelsDirectoryInfo.FullName, ProgressModelFileName);
+            string fullFileName = GetFullFileName();
 
             if (!File.Exists(fullFileName))
             {
@@ -93,16 +93,25 @@ namespace Progress
         
         private void SaveProgressModel()
         {
-            string fullFileName = Path.Combine(_modelsDirectoryInfo.FullName, ProgressModelFileName);
             string jsonNotation = JsonConvert.SerializeObject(_progressDataModel);
             string encryptedNotation = _cryptoService != null ? _cryptoService.Encrypt(jsonNotation) : jsonNotation;
                 
             lock (_progressDataModel)
             {
-                File.WriteAllText(fullFileName, encryptedNotation);
+                File.WriteAllText(GetFullFileName(), encryptedNotation);
             }
         }
-        
+
+        public void ClearProgress()
+        {
+            File.Delete(GetFullFileName());
+        }
+
+        private string GetFullFileName()
+        {
+            return Path.Combine(_modelsDirectoryInfo.FullName, ProgressModelFileName);
+        }
+
         public void Dispose()
         {
             _progressDataModel.OnDemandSave -= OnDemandSave;
