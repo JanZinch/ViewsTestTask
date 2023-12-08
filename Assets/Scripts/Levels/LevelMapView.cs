@@ -13,6 +13,13 @@ namespace Levels
 
         private ProgressDataModel _progressDataModel;
 
+        [EasyButtons.Button]
+        private void RefreshViewsList()
+        {
+            _levelViews = new List<LevelView>(GetComponentsInChildren<LevelView>());
+        }
+
+
         public LevelMapView Initialize(ProgressDataModel progressDataModel)
         {
             _progressDataModel = progressDataModel;
