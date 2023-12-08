@@ -56,26 +56,27 @@ namespace Purchases
             _progressDataModel = progressDataModel;
         }
         
-        public bool CanBePurchased(PurchaseType purchaseType)
-        {
-            if (_purchases.TryGetValue(purchaseType, out Purchase purchase))
-            {
-                return CanBePurchased(purchase);
-            }
-
-            return false;
-        }
-        
-        private bool CanBePurchased(Purchase purchase)
-        {
-            return purchase.Price.ResourceAmount <= _resourceService.GetResourceAmount(purchase.Price.ResourceType);
-        }
         
         public bool IsPurchased(PurchaseType purchaseType)
         {
             return _progressDataModel.GetGamePurchaseState(purchaseType) == PurchaseState.Bought;
         }
+        
+        public bool CanBePurchased(PurchaseType purchaseType)
+        {
+            if (IsPurchased(purchaseType))
+            {
+                return false;
+            }
+            
+            if (_purchases.TryGetValue(purchaseType, out Purchase purchase))
+            {
+                return purchase.Price.ResourceAmount <= _resourceService.GetResourceAmount(purchase.Price.ResourceType);
+            }
 
+            return false;
+        }
+        
         public ResourcePrice GetPrice(PurchaseType purchaseType)
         {
             if (_purchases.TryGetValue(purchaseType, out Purchase purchase))
@@ -88,18 +89,13 @@ namespace Purchases
 
         public bool TryPurchase(PurchaseType purchaseType)
         {
-            if (IsPurchased(purchaseType))
+            if (!CanBePurchased(purchaseType))
             {
                 return false;
             }
 
             if (_purchases.TryGetValue(purchaseType, out Purchase purchase))
             {
-                if (!CanBePurchased(purchase))
-                {
-                    return false;
-                }
-                
                 _resourceService.SubtractResourceAmount(purchase.Price.ResourceType, purchase.Price.ResourceAmount);
                 purchase.PurchaseAction?.Invoke();
                 

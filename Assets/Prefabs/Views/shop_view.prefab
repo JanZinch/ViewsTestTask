@@ -1457,6 +1457,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 743617186226885154}
     m_Modifications:
+    - target: {fileID: 1024465895064261947, guid: 703b1a519dd5b5b4d872e21f19711d86, type: 3}
+      propertyPath: _purchaseType
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 2457299374347733099, guid: 703b1a519dd5b5b4d872e21f19711d86, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1543,7 +1547,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2457299374347733100, guid: 703b1a519dd5b5b4d872e21f19711d86, type: 3}
       propertyPath: m_Name
-      value: shop_item_view
+      value: location_1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 703b1a519dd5b5b4d872e21f19711d86, type: 3}
@@ -1570,6 +1574,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 743617186226885154}
     m_Modifications:
+    - target: {fileID: 1024465895064261947, guid: 703b1a519dd5b5b4d872e21f19711d86, type: 3}
+      propertyPath: _purchaseType
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 2457299374347733099, guid: 703b1a519dd5b5b4d872e21f19711d86, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1656,7 +1664,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2457299374347733100, guid: 703b1a519dd5b5b4d872e21f19711d86, type: 3}
       propertyPath: m_Name
-      value: shop_item_view (2)
+      value: location_3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 703b1a519dd5b5b4d872e21f19711d86, type: 3}
@@ -1683,6 +1691,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4590707982413949229}
     m_Modifications:
+    - target: {fileID: 1024465895064261947, guid: 703b1a519dd5b5b4d872e21f19711d86, type: 3}
+      propertyPath: _purchaseType
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2457299374347733099, guid: 703b1a519dd5b5b4d872e21f19711d86, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1769,7 +1781,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2457299374347733100, guid: 703b1a519dd5b5b4d872e21f19711d86, type: 3}
       propertyPath: m_Name
-      value: shop_item_view (1)
+      value: character_2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 703b1a519dd5b5b4d872e21f19711d86, type: 3}
@@ -1909,6 +1921,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4590707982413949229}
     m_Modifications:
+    - target: {fileID: 1024465895064261947, guid: 703b1a519dd5b5b4d872e21f19711d86, type: 3}
+      propertyPath: _purchaseType
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2457299374347733099, guid: 703b1a519dd5b5b4d872e21f19711d86, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1995,7 +2011,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2457299374347733100, guid: 703b1a519dd5b5b4d872e21f19711d86, type: 3}
       propertyPath: m_Name
-      value: shop_item_view
+      value: character_1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 703b1a519dd5b5b4d872e21f19711d86, type: 3}
@@ -2135,6 +2151,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 743617186226885154}
     m_Modifications:
+    - target: {fileID: 1024465895064261947, guid: 703b1a519dd5b5b4d872e21f19711d86, type: 3}
+      propertyPath: _purchaseType
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 2457299374347733099, guid: 703b1a519dd5b5b4d872e21f19711d86, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -2221,7 +2241,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2457299374347733100, guid: 703b1a519dd5b5b4d872e21f19711d86, type: 3}
       propertyPath: m_Name
-      value: shop_item_view (1)
+      value: location_2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 703b1a519dd5b5b4d872e21f19711d86, type: 3}

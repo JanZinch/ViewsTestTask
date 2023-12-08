@@ -1,5 +1,6 @@
 using Factories;
 using Progress;
+using Purchases;
 using UnityEngine;
 using Views;
 
@@ -12,6 +13,8 @@ namespace Management
         
         private void Awake()
         {
+            UnityServicesUtility.Initialize();
+            
             _menuView.InjectDependencies(_viewsFactory);
         }
     }

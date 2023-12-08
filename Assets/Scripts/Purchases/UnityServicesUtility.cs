@@ -9,7 +9,7 @@ namespace Purchases
     {
         private const string EnvironmentName = "dev";
 
-        public static async void InitializeIfNeed()
+        public static async void Initialize()
         {
             try {
                 
