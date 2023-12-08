@@ -77,7 +77,7 @@ namespace Views
         
         private void ShowShop()
         {
-            _viewsFactory.ShowView<ShopView>().Initialize(_purchaseService);
+            _viewsFactory.ShowView<ShopView>();//.Initialize(_purchaseService);
         }
         
         private void OnDisable()
