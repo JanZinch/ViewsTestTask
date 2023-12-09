@@ -15,9 +15,9 @@ namespace Views
         [SerializeField] private TextMeshProUGUI _priceTextMesh;
         [SerializeField] private Button _buyButton;
         
-        private GamePurchaseService _purchaseService;
+        private IPurchaseService _purchaseService;
         
-        public ShopItemView Initialize(GamePurchaseService purchaseService)
+        public ShopItemView Initialize(IPurchaseService purchaseService)
         {
             _purchaseService = purchaseService;
             UpdateView();
@@ -31,10 +31,13 @@ namespace Views
 
         private void OnBuyClick()
         {
-            if (_purchaseService.TryPurchase(_purchaseType))
+            _purchaseService.TryPurchase(_purchaseType, result =>
             {
-                UpdateView();
-            }
+                if (result)
+                {
+                    UpdateView();
+                }
+            });
         }
         
         private void UpdateView()
@@ -46,8 +49,7 @@ namespace Views
             
             if (!isPurchased)
             {
-                _priceTextMesh.SetText(_purchaseService.GetPrice(_purchaseType).ResourceAmount
-                    .ToString(CultureInfo.InvariantCulture));
+                _priceTextMesh.SetText(_purchaseService.GetPriceString(_purchaseType));
             }
             
         }

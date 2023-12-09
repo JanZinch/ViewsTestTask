@@ -1,48 +1,50 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
 using InAppResources;
 using Progress;
 using UnityEngine;
 
 namespace Purchases
 {
-    public class GamePurchaseService
+    public class PurchaseForResourceService : IPurchaseService
     {
         private readonly ResourceService _resourceService;
         private readonly ProgressDataModel _progressDataModel;
         
-        private readonly Dictionary<PurchaseType, Purchase> _purchases = new Dictionary<PurchaseType, Purchase>()
+        private readonly Dictionary<PurchaseType, PurchaseForResource> _purchases = new Dictionary<PurchaseType, PurchaseForResource>()
         {
             { 
                 PurchaseType.Character1, 
-                new Purchase(new ResourcePrice(ResourceType.Tickets, 250), () =>
+                new PurchaseForResource(new ResourcePrice(ResourceType.Tickets, 250), () =>
                 {
                     Debug.Log("Open character 1");
                 })
             },
             { 
                 PurchaseType.Character2, 
-                new Purchase(new ResourcePrice(ResourceType.Tickets, 500), () =>
+                new PurchaseForResource(new ResourcePrice(ResourceType.Tickets, 500), () =>
                 {
                     Debug.Log("Open character 2");
                 })
             },
             { 
                 PurchaseType.Location1, 
-                new Purchase(new ResourcePrice(ResourceType.Tickets, 250), () =>
+                new PurchaseForResource(new ResourcePrice(ResourceType.Tickets, 250), () =>
                 {
                     Debug.Log("Open location 1");
                 })
             },
             { 
                 PurchaseType.Location2, 
-                new Purchase(new ResourcePrice(ResourceType.Tickets, 500), () =>
+                new PurchaseForResource(new ResourcePrice(ResourceType.Tickets, 500), () =>
                 {
                     Debug.Log("Open location 2");
                 })
             },
             { 
                 PurchaseType.Location3, 
-                new Purchase(new ResourcePrice(ResourceType.Tickets, 500), () =>
+                new PurchaseForResource(new ResourcePrice(ResourceType.Tickets, 500), () =>
                 {
                     Debug.Log("Open location 3");
                 })
@@ -50,12 +52,11 @@ namespace Purchases
             
         };
 
-        public GamePurchaseService(ResourceService resourceService, ProgressDataModel progressDataModel)
+        public PurchaseForResourceService(ResourceService resourceService, ProgressDataModel progressDataModel)
         {
             _resourceService = resourceService;
             _progressDataModel = progressDataModel;
         }
-        
         
         public bool IsPurchased(PurchaseType purchaseType)
         {
@@ -69,35 +70,30 @@ namespace Purchases
                 return false;
             }
             
-            if (_purchases.TryGetValue(purchaseType, out Purchase purchase))
+            if (_purchases.TryGetValue(purchaseType, out PurchaseForResource purchase))
             {
                 return purchase.Price.ResourceAmount <= _resourceService.GetResourceAmount(purchase.Price.ResourceType);
             }
 
             return false;
         }
-        
-        public ResourcePrice GetPrice(PurchaseType purchaseType)
+
+        public void TryPurchase(PurchaseType purchaseType, Action<bool> onCompleteCallback)
         {
-            if (_purchases.TryGetValue(purchaseType, out Purchase purchase))
-            {
-                return purchase.Price;
-            }
-
-            return new ResourcePrice();
+            onCompleteCallback?.Invoke(TryPurchase(purchaseType));
         }
-
-        public bool TryPurchase(PurchaseType purchaseType)
+        
+        private bool TryPurchase(PurchaseType purchaseType)
         {
             if (!CanBePurchased(purchaseType))
             {
                 return false;
             }
 
-            if (_purchases.TryGetValue(purchaseType, out Purchase purchase))
+            if (_purchases.TryGetValue(purchaseType, out PurchaseForResource purchase))
             {
                 _resourceService.SubtractResourceAmount(purchase.Price.ResourceType, purchase.Price.ResourceAmount);
-                purchase.PurchaseAction?.Invoke();
+                purchase.ProcessPurchase?.Invoke();
                 
                 _progressDataModel.SetGamePurchaseState(purchaseType, PurchaseState.Bought);
 
@@ -107,5 +103,20 @@ namespace Purchases
             return false;
         }
 
+        public string GetPriceString(PurchaseType purchaseType)
+        {
+            return GetPrice(purchaseType).ResourceAmount.ToString(CultureInfo.InvariantCulture);
+        }
+
+        public ResourcePrice GetPrice(PurchaseType purchaseType)
+        {
+            if (_purchases.TryGetValue(purchaseType, out PurchaseForResource purchase))
+            {
+                return purchase.Price;
+            }
+
+            return new ResourcePrice();
+        }
+        
     }
 }

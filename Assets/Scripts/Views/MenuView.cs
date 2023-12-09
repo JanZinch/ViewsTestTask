@@ -29,7 +29,8 @@ namespace Views
 
         private ResourceService _resourceService;
 
-        private GamePurchaseService _purchaseService;
+        private PurchaseForResourceService _purchaseService;
+        private InAppPurchaseService _inAppPurchaseService;
         
         private void Awake()
         {
@@ -41,7 +42,8 @@ namespace Views
             _resourceService = new ResourceService(_progressDataModel);
             _dailyBonusService = new DailyBonusService(_progressDataModel, _dailyBonusesContainer, _resourceService);
 
-            _purchaseService = new GamePurchaseService(_resourceService, _progressDataModel);
+            _purchaseService = new PurchaseForResourceService(_resourceService, _progressDataModel);
+            _inAppPurchaseService = new InAppPurchaseService();
             
             _resourceCounter.InjectDependencies(_resourceService);
         }
@@ -77,7 +79,7 @@ namespace Views
         
         private void ShowShop()
         {
-            _viewsFactory.ShowView<ShopView>().Initialize(_purchaseService);
+            _viewsFactory.ShowView<ShopView>().Initialize(_inAppPurchaseService, _purchaseService);
         }
         
         private void OnDisable()

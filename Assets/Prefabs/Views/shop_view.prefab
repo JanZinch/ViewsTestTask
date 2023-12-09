@@ -1268,9 +1268,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _hideButton: {fileID: 7488869506177285154}
-  _shopItemViews:
+  _inAppPurchaseItems:
   - {fileID: 4058729881668714994}
   - {fileID: 6437786947970918316}
+  _purchaseForResourceItems:
   - {fileID: 4028224599184904504}
   - {fileID: 2588295430974357448}
   - {fileID: 513228208578583139}
@@ -1808,6 +1809,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7488869505116478181}
     m_Modifications:
+    - target: {fileID: 1024465895064261947, guid: 703b1a519dd5b5b4d872e21f19711d86, type: 3}
+      propertyPath: _purchaseType
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 2457299374347733099, guid: 703b1a519dd5b5b4d872e21f19711d86, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1894,7 +1899,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2457299374347733100, guid: 703b1a519dd5b5b4d872e21f19711d86, type: 3}
       propertyPath: m_Name
-      value: shop_item_view
+      value: epic_chest
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 703b1a519dd5b5b4d872e21f19711d86, type: 3}
@@ -2038,6 +2043,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7488869505116478181}
     m_Modifications:
+    - target: {fileID: 1024465895064261947, guid: 703b1a519dd5b5b4d872e21f19711d86, type: 3}
+      propertyPath: _purchaseType
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 2457299374347733099, guid: 703b1a519dd5b5b4d872e21f19711d86, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -2124,7 +2133,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2457299374347733100, guid: 703b1a519dd5b5b4d872e21f19711d86, type: 3}
       propertyPath: m_Name
-      value: shop_item_view (1)
+      value: lucky_chest
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 703b1a519dd5b5b4d872e21f19711d86, type: 3}

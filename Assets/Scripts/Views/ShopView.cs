@@ -8,23 +8,25 @@ namespace Views
     public class ShopView : BaseView
     {
         [SerializeField] private Button _hideButton;
-        [SerializeField] private List<ShopItemView> _shopItemViews;
+        [SerializeField] private List<ShopItemView> _inAppPurchaseItems;
+        [SerializeField] private List<ShopItemView> _purchaseForResourceItems;
         
-        private GamePurchaseService _purchaseService;
-
-        [EasyButtons.Button]
-        private void RefreshViewsList()
-        {
-            _shopItemViews = new List<ShopItemView>(GetComponentsInChildren<ShopItemView>());
-        }
+        private InAppPurchaseService _inAppPurchaseService;
+        private PurchaseForResourceService _purchaseForResourceService;
         
-        public void Initialize(GamePurchaseService purchaseService)
+        public void Initialize(InAppPurchaseService inAppPurchaseService, PurchaseForResourceService purchaseForResourceService)
         {
-            _purchaseService = purchaseService;
-
-            foreach (ShopItemView view in _shopItemViews)
+            _inAppPurchaseService = inAppPurchaseService;
+            _purchaseForResourceService = purchaseForResourceService;
+            
+            foreach (ShopItemView item in _inAppPurchaseItems)
             {
-                view.Initialize(_purchaseService);
+                item.Initialize(_inAppPurchaseService);
+            }
+            
+            foreach (ShopItemView item in _purchaseForResourceItems)
+            {
+                item.Initialize(_purchaseForResourceService);
             }
         }
 

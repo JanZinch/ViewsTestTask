@@ -6,25 +6,11 @@ using UnityEngine.Purchasing;
 
 namespace Purchases
 {
-    public class InAppPurchaseService : IStoreListener
+    public class InAppPurchaseService : IStoreListener, IPurchaseService
     {
-        private readonly ResourceService _resourceService;
         private IStoreController _storeController;
 
         private readonly LinkedList<PendingPair> _pendingPairs = new LinkedList<PendingPair>();
-        
-        private struct PendingPair
-        {
-            public InAppPurchase Purchase { get; private set; }
-            public Action<bool> OnCompleteCallback { get; private set; }
-
-            public PendingPair(InAppPurchase purchase, Action<bool> onCompleteCallback)
-            {
-                Purchase = purchase;
-                OnCompleteCallback = onCompleteCallback;
-            }
-        }
-        
         
         private readonly Dictionary<PurchaseType, InAppPurchase> _purchases = new Dictionary<PurchaseType, InAppPurchase>()
         {
@@ -44,10 +30,20 @@ namespace Purchases
             }
         };
         
-        public InAppPurchaseService(ResourceService resourceService)
+        private struct PendingPair
         {
-            _resourceService = resourceService;
-            
+            public InAppPurchase Purchase { get; private set; }
+            public Action<bool> OnCompleteCallback { get; private set; }
+
+            public PendingPair(InAppPurchase purchase, Action<bool> onCompleteCallback)
+            {
+                Purchase = purchase;
+                OnCompleteCallback = onCompleteCallback;
+            }
+        }
+        
+        public InAppPurchaseService()
+        {
             ConfigurationBuilder builder = ConfigurationBuilder.Instance(StandardPurchasingModule.Instance());
 
             foreach (PurchaseType key in _purchases.Keys)
@@ -59,59 +55,6 @@ namespace Purchases
             UnityPurchasing.Initialize(this, builder);
         }
         
-        
-        
-        public bool IsPurchased(PurchaseType purchaseType)
-        {
-            if (_purchases.TryGetValue(purchaseType, out InAppPurchase purchase))
-            {
-                Product product = _storeController.products.WithID(purchase.ProductId);
-
-                if (product.definition.type == ProductType.NonConsumable ||
-                    product.definition.type == ProductType.Subscription)
-                {
-                    return product.hasReceipt;
-                }
-
-            }
-            
-            return false;
-        }
-        
-        public bool CanBePurchased(PurchaseType purchaseType)
-        {
-            if (IsPurchased(purchaseType))
-            {
-                return false;
-            }
-
-            return _purchases.TryGetValue(purchaseType, out InAppPurchase purchase);
-        }
-
-        public string GetPriceString(PurchaseType purchaseType)
-        {
-            if (_purchases.TryGetValue(purchaseType, out InAppPurchase purchase))
-            {
-                return _storeController.products.WithID(purchase.ProductId).metadata.localizedPriceString;
-            }
-
-            return null;
-        }
-
-        public void TryPurchase(PurchaseType purchaseType, Action<bool> onCompleteCallback)
-        {
-            if (!CanBePurchased(purchaseType))
-            {
-                return;
-            }
-
-            if (_purchases.TryGetValue(purchaseType, out InAppPurchase purchase))
-            {
-                _storeController.InitiatePurchase(purchase.ProductId);
-                _pendingPairs.AddLast(new PendingPair(purchase, onCompleteCallback));
-            }
-        }
-
         public void OnInitialized(IStoreController controller, IExtensionProvider extensions)
         {
             _storeController = controller;
@@ -158,7 +101,55 @@ namespace Purchases
         {
             Debug.LogWarning($"Purchase failed - Product: '{product.definition.id}', PurchaseFailureReason: {failureReason}");
         }
-
         
+        public bool IsPurchased(PurchaseType purchaseType)
+        {
+            if (_purchases.TryGetValue(purchaseType, out InAppPurchase purchase))
+            {
+                Product product = _storeController.products.WithID(purchase.ProductId);
+
+                if (product.definition.type == ProductType.NonConsumable || 
+                    product.definition.type == ProductType.Subscription)
+                {
+                    return product.hasReceipt;
+                }
+            }
+            
+            return false;
+        }
+        
+        public bool CanBePurchased(PurchaseType purchaseType)
+        {
+            if (IsPurchased(purchaseType))
+            {
+                return false;
+            }
+
+            return _purchases.TryGetValue(purchaseType, out InAppPurchase purchase);
+        }
+
+        public void TryPurchase(PurchaseType purchaseType, Action<bool> onCompleteCallback)
+        {
+            if (!CanBePurchased(purchaseType))
+            {
+                return;
+            }
+
+            if (_purchases.TryGetValue(purchaseType, out InAppPurchase purchase))
+            {
+                _storeController.InitiatePurchase(purchase.ProductId);
+                _pendingPairs.AddLast(new PendingPair(purchase, onCompleteCallback));
+            }
+        }
+        
+        public string GetPriceString(PurchaseType purchaseType)
+        {
+            if (_purchases.TryGetValue(purchaseType, out InAppPurchase purchase))
+            {
+                return _storeController.products.WithID(purchase.ProductId).metadata.localizedPriceString;
+            }
+
+            return null;
+        }
     }
 }
