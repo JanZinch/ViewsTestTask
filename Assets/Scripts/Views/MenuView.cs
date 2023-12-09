@@ -80,7 +80,7 @@ namespace Views
         
         private void ShowShop()
         {
-            _viewsFactory.ShowView<ShopView>().Initialize(_inAppPurchaseService, _purchaseService, _purchaseAccessConfig);
+            _viewsFactory.ShowView<ShopView>().Initialize(_inAppPurchaseService, _purchaseService);
         }
         
         private void OnDisable()

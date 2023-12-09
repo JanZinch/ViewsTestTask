@@ -14,19 +14,19 @@ namespace Views
         private InAppPurchaseService _inAppPurchaseService;
         private PurchaseForResourceService _purchaseForResourceService;
         
-        public void Initialize(InAppPurchaseService inAppPurchaseService, PurchaseForResourceService purchaseForResourceService, PurchaseAccessConfig purchaseAccessConfig)
+        public void Initialize(InAppPurchaseService inAppPurchaseService, PurchaseForResourceService purchaseForResourceService)
         {
             _inAppPurchaseService = inAppPurchaseService;
             _purchaseForResourceService = purchaseForResourceService;
             
             foreach (ShopItemView item in _inAppPurchaseItems)
             {
-                item.Initialize(_inAppPurchaseService, purchaseAccessConfig);
+                item.Initialize(_inAppPurchaseService);
             }
             
             foreach (ShopItemView item in _purchaseForResourceItems)
             {
-                item.Initialize(_purchaseForResourceService, purchaseAccessConfig);
+                item.Initialize(_purchaseForResourceService);
             }
         }
 

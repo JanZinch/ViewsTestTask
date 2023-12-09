@@ -26,12 +26,10 @@ namespace Views
         [SerializeField] private Button _buyButton;
         
         private IPurchaseService _purchaseService;
-        private PurchaseAccessConfig _purchaseAccessConfig;
         
-        public ShopItemView Initialize(IPurchaseService purchaseService, PurchaseAccessConfig purchaseAccessConfig)
+        public ShopItemView Initialize(IPurchaseService purchaseService)
         {
             _purchaseService = purchaseService;
-            _purchaseAccessConfig = purchaseAccessConfig;
             UpdateView();
             return this;
         }
