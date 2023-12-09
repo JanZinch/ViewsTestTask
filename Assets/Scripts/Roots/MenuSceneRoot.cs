@@ -1,17 +1,14 @@
 using System;
-using System.Threading.Tasks;
 using Audio;
 using Factories;
 using Models;
-using Progress;
-using Purchases;
 using Unity.Services.Core;
 using Unity.Services.Core.Environments;
 using UnityEngine;
 using UnityEngine.Audio;
 using Views;
 
-namespace Management
+namespace Roots
 {
     public class MenuSceneRoot : MonoBehaviour
     {
@@ -43,16 +40,20 @@ namespace Management
         {
             InitializeUnityServices(() =>
             {
-                Settings settings = new Settings(_audioMixer);
-                _audioManager.Initialize(settings);
-            
-            
-                _menuView.InjectDependencies(_viewsFactory, settings);
+                
                 
                 
             });
             
+        }
+
+        private void Start()
+        {
+            Settings settings = new Settings(_audioMixer);
+            _audioManager.Initialize(settings);
             
+            
+            _menuView.InjectDependencies(_viewsFactory, settings);
         }
     }
 }

@@ -20,12 +20,11 @@ namespace Models
         public Settings(AudioMixer audioMixer)
         {
             _audioMixer = audioMixer;
-
+            
             _audioMixer.SetFloat(MusicVolumeParam, BooleanToDecibels(IsMusicOn));
             _audioMixer.SetFloat(SoundsVolumeParam, BooleanToDecibels(IsSoundsOn));
-
         }
-
+        
         public bool IsMusicOn
         {
             get => Convert.ToBoolean(PlayerPrefs.GetInt(IsMusicOnKey, Convert.ToInt32(true)));
