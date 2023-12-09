@@ -21,6 +21,7 @@ namespace Views
         
         [Space]
         [SerializeField] private DailyBonusesContainer _dailyBonusesContainer;
+        [SerializeField] private PurchaseAccessConfig _purchaseAccessConfig;
         
         private ViewsFactory _viewsFactory;
         private Settings _settings;
@@ -42,7 +43,7 @@ namespace Views
             _resourceService = new ResourceService(_progressDataModel);
             _dailyBonusService = new DailyBonusService(_progressDataModel, _dailyBonusesContainer, _resourceService);
 
-            _purchaseService = new PurchaseForResourceService(_resourceService, _progressDataModel);
+            _purchaseService = new PurchaseForResourceService(_resourceService, _progressDataModel, _purchaseAccessConfig);
             _inAppPurchaseService = new InAppPurchaseService(_resourceService);
             
             _resourceCounter.InjectDependencies(_resourceService);
@@ -79,7 +80,7 @@ namespace Views
         
         private void ShowShop()
         {
-            _viewsFactory.ShowView<ShopView>().Initialize(_inAppPurchaseService, _purchaseService);
+            _viewsFactory.ShowView<ShopView>().Initialize(_inAppPurchaseService, _purchaseService, _purchaseAccessConfig);
         }
         
         private void OnDisable()

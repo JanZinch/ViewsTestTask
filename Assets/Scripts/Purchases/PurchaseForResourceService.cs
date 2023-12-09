@@ -11,6 +11,7 @@ namespace Purchases
     {
         private readonly ResourceService _resourceService;
         private readonly ProgressDataModel _progressDataModel;
+        private readonly PurchaseAccessConfig _purchaseAccessConfig;
         
         private readonly Dictionary<PurchaseType, PurchaseForResource> _purchases = new Dictionary<PurchaseType, PurchaseForResource>()
         {
@@ -52,10 +53,15 @@ namespace Purchases
             
         };
 
-        public PurchaseForResourceService(ResourceService resourceService, ProgressDataModel progressDataModel)
+        public PurchaseAccessConfig PurchaseAccessConfig => _purchaseAccessConfig;
+        public ProgressDataModel ProgressDataModel => _progressDataModel;
+        
+        
+        public PurchaseForResourceService(ResourceService resourceService, ProgressDataModel progressDataModel, PurchaseAccessConfig purchaseAccessConfig)
         {
             _resourceService = resourceService;
             _progressDataModel = progressDataModel;
+            _purchaseAccessConfig = purchaseAccessConfig;
         }
         
         public bool IsPurchased(PurchaseType purchaseType)
@@ -70,7 +76,8 @@ namespace Purchases
                 return false;
             }
             
-            if (_purchases.TryGetValue(purchaseType, out PurchaseForResource purchase))
+            if (_purchaseAccessConfig.GetRequiredLevelIndex(purchaseType) <= _progressDataModel.CurrentLevelIndex &&
+                _purchases.TryGetValue(purchaseType, out PurchaseForResource purchase))
             {
                 return purchase.Price.ResourceAmount <= _resourceService.GetResourceAmount(purchase.Price.ResourceType);
             }

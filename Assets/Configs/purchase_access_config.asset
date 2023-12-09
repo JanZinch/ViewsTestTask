@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b38d360bd744bf4a73311e62da2ed32, type: 3}
+  m_Name: purchase_access_config
+  m_EditorClassIdentifier: 
+  _accesses:
+  - <PurchaseType>k__BackingField: 2
+    <RequiredLevelIndex>k__BackingField: 10
+  - <PurchaseType>k__BackingField: 5
+    <RequiredLevelIndex>k__BackingField: 10

@@ -930,6 +930,7 @@ MonoBehaviour:
   _dailyBonusButton: {fileID: 5284946982850671643}
   _shopButton: {fileID: 1519425876428312994}
   _dailyBonusesContainer: {fileID: 11400000, guid: 52ee880324bf8524fa32d7a77d0a1db2, type: 2}
+  _purchaseAccessConfig: {fileID: 11400000, guid: 2187991ffcf90b14288c407d07a09116, type: 2}
 --- !u!1 &4411192973203198846
 GameObject:
   m_ObjectHideFlags: 0
