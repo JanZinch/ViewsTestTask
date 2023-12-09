@@ -10,19 +10,17 @@ namespace InAppResources
         [SerializeField] private TextMeshProUGUI _textMesh;
 
         private ResourceService _resourceService;
-        
+
         public ResourceCounter Initialize(ResourceService resourceService)
         {
             _resourceService = resourceService;
+            _resourceService.OnResourceAmountChanged += OnResourceAmountChanged;
+            
             UpdateView(_resourceService.GetResourceAmount(_resourceType));
+            
             return this;
         }
         
-        private void OnEnable()
-        {
-            _resourceService.OnResourceAmountChanged += OnResourceAmountChanged;
-        }
-
         private void OnResourceAmountChanged(object sender, ResourceChangedEventArgs eventArgs)
         {
             if (eventArgs.ResourceType == _resourceType)
@@ -36,9 +34,12 @@ namespace InAppResources
             _textMesh.SetText(value.ToString(CultureInfo.InvariantCulture));
         }
 
-        private void OnDisable()
+        private void OnDestroy()
         {
-            _resourceService.OnResourceAmountChanged -= OnResourceAmountChanged;
+            if (_resourceService != null)
+            {
+                _resourceService.OnResourceAmountChanged -= OnResourceAmountChanged;
+            }
         }
     }
 }
