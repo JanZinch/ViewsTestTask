@@ -287,6 +287,8 @@ MonoBehaviour:
   _viewsFactory: {fileID: 578552999}
   _audioMixer: {fileID: 24100000, guid: 217de45f6185be641b6f53802727e4e0, type: 2}
   _audioManager: {fileID: 1516160258}
+  _purchaseAccessConfig: {fileID: 11400000, guid: 2187991ffcf90b14288c407d07a09116, type: 2}
+  _dailyBonusesContainer: {fileID: 11400000, guid: 52ee880324bf8524fa32d7a77d0a1db2, type: 2}
 --- !u!1 &845481087
 GameObject:
   m_ObjectHideFlags: 0

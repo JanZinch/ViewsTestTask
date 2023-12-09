@@ -11,7 +11,7 @@ namespace InAppResources
 
         private ResourceService _resourceService;
         
-        public ResourceCounter InjectDependencies(ResourceService resourceService)
+        public ResourceCounter Initialize(ResourceService resourceService)
         {
             _resourceService = resourceService;
             UpdateView(_resourceService.GetResourceAmount(_resourceType));

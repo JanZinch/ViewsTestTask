@@ -1,13 +1,8 @@
-﻿using System;
-using Bonuses;
-using Factories;
+﻿using Factories;
 using InAppResources;
 using Levels;
-using Models;
-using Progress;
-using Purchases;
+using Roots;
 using UnityEngine;
-using UnityEngine.Audio;
 using UnityEngine.UI;
 
 namespace Views
@@ -20,39 +15,15 @@ namespace Views
         [SerializeField] private Button _dailyBonusButton;
         [SerializeField] private Button _shopButton;
         
-        [Space]
-        [SerializeField] private DailyBonusesContainer _dailyBonusesContainer;
-        [SerializeField] private PurchaseAccessConfig _purchaseAccessConfig;
-        
-        
+        private GameRoot _gameRoot;
         private ViewsFactory _viewsFactory;
-        private Settings _settings;
-        private ProgressDataModel _progressDataModel;
-        private DailyBonusService _dailyBonusService;
-
-        private ResourceService _resourceService;
-
-        private PurchaseForResourceService _purchaseService;
-        private InAppPurchaseService _inAppPurchaseService;
         
-        private void Awake()
+        public MenuView Initialize(GameRoot gameRoot)
         {
-            ProgressDataAdapter progressDataAdapter = new ProgressDataAdapter();
-            _progressDataModel = progressDataAdapter.GetProgressModel();
+            _gameRoot = gameRoot;
+            _viewsFactory = _gameRoot.ViewsFactory;
+            _resourceCounter.Initialize(_gameRoot.ResourceService);
             
-            _resourceService = new ResourceService(_progressDataModel);
-            _dailyBonusService = new DailyBonusService(_progressDataModel, _dailyBonusesContainer, _resourceService);
-
-            _purchaseService = new PurchaseForResourceService(_resourceService, _progressDataModel, _purchaseAccessConfig);
-            _inAppPurchaseService = new InAppPurchaseService(_resourceService);
-            
-            _resourceCounter.InjectDependencies(_resourceService);
-        }
-
-        public MenuView InjectDependencies(ViewsFactory viewsFactory, Settings settings)
-        {
-            _viewsFactory = viewsFactory;
-            _settings = settings;
             return this;
         }
         
@@ -66,22 +37,22 @@ namespace Views
 
         private void Play()
         {
-            _viewsFactory.ShowView<LevelMapView>().Initialize(_progressDataModel);
+            _viewsFactory.ShowView<LevelMapView>().Initialize(_gameRoot.ProgressDataModel);
         }
         
         private void ShowSettings()
         {
-            _viewsFactory.ShowView<SettingsView>().InjectDependencies(_settings);
+            _viewsFactory.ShowView<SettingsView>().InjectDependencies(_gameRoot.Settings);
         }
         
         private void ShowDailyBonuses()
         {
-            _viewsFactory.ShowView<DailyBonusPresenter>().InjectDependencies(_viewsFactory, _dailyBonusService);
+            _viewsFactory.ShowView<DailyBonusPresenter>().InjectDependencies(_viewsFactory, _gameRoot.DailyBonusService);
         }
         
         private void ShowShop()
         {
-            _viewsFactory.ShowView<ShopView>().Initialize(_inAppPurchaseService, _purchaseService);
+            _viewsFactory.ShowView<ShopView>().Initialize(_gameRoot.InAppPurchaseService, _gameRoot.PurchaseForResourceService);
         }
         
         private void OnDisable()
