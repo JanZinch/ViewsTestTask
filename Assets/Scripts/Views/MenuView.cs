@@ -43,7 +43,7 @@ namespace Views
             _dailyBonusService = new DailyBonusService(_progressDataModel, _dailyBonusesContainer, _resourceService);
 
             _purchaseService = new PurchaseForResourceService(_resourceService, _progressDataModel);
-            _inAppPurchaseService = new InAppPurchaseService();
+            _inAppPurchaseService = new InAppPurchaseService(_resourceService);
             
             _resourceCounter.InjectDependencies(_resourceService);
         }

@@ -7,12 +7,14 @@ namespace Purchases
     {
         public string ProductId { get; private set; }
         public ProductType ProductType { get; private set; }
+        public string PriceString { get; private set; }
         public Action ProcessPurchase { get; private set; }
         
-        public InAppPurchase(string productId, ProductType productType, Action processPurchase)
+        public InAppPurchase(string productId, ProductType productType, string priceString, Action processPurchase)
         {
             ProductId = productId;
             ProductType = productType;
+            PriceString = priceString;
             ProcessPurchase = processPurchase;
         }
     }

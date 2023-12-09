@@ -8,27 +8,11 @@ namespace Purchases
 {
     public class InAppPurchaseService : IStoreListener, IPurchaseService
     {
+        private ResourceService _resourceService;
         private IStoreController _storeController;
 
         private readonly LinkedList<PendingPair> _pendingPairs = new LinkedList<PendingPair>();
-        
-        private readonly Dictionary<PurchaseType, InAppPurchase> _purchases = new Dictionary<PurchaseType, InAppPurchase>()
-        {
-            {
-                PurchaseType.EpicChest, 
-                new InAppPurchase("epic_chest", ProductType.Consumable, () =>
-                {
-                    Debug.Log("Open epic chest");
-                })
-            },
-            {
-                PurchaseType.LuckyChest, 
-                new InAppPurchase("lucky_chest", ProductType.Consumable, () =>
-                {
-                    Debug.Log("Open lucky chest");
-                })
-            }
-        };
+        private readonly Dictionary<PurchaseType, InAppPurchase> _purchases;
         
         private struct PendingPair
         {
@@ -42,10 +26,32 @@ namespace Purchases
             }
         }
         
-        public InAppPurchaseService()
+        public InAppPurchaseService(ResourceService resourceService)
         {
+            _resourceService = resourceService;
+            
+            _purchases = new Dictionary<PurchaseType, InAppPurchase>()
+            {
+                {
+                    PurchaseType.EpicChest, 
+                    new InAppPurchase("epic_chest", ProductType.Consumable, "1.99$", () =>
+                    {
+                        _resourceService.AppendResourceAmount(ResourceType.Tickets, 500);
+                        Debug.Log("Epic chest opened");
+                    })
+                },
+                {
+                    PurchaseType.LuckyChest, 
+                    new InAppPurchase("lucky_chest", ProductType.Consumable, "4.99$", () =>
+                    {
+                        _resourceService.AppendResourceAmount(ResourceType.Tickets, 1200);
+                        Debug.Log("Lucky chest opened");
+                    })
+                }
+            };
+            
             ConfigurationBuilder builder = ConfigurationBuilder.Instance(StandardPurchasingModule.Instance());
-
+            
             foreach (PurchaseType key in _purchases.Keys)
             {
                 InAppPurchase purchase = _purchases[key];
@@ -137,8 +143,8 @@ namespace Purchases
 
             if (_purchases.TryGetValue(purchaseType, out InAppPurchase purchase))
             {
-                _storeController.InitiatePurchase(purchase.ProductId);
                 _pendingPairs.AddLast(new PendingPair(purchase, onCompleteCallback));
+                _storeController.InitiatePurchase(purchase.ProductId);
             }
         }
         
@@ -146,7 +152,7 @@ namespace Purchases
         {
             if (_purchases.TryGetValue(purchaseType, out InAppPurchase purchase))
             {
-                return _storeController.products.WithID(purchase.ProductId).metadata.localizedPriceString;
+                return purchase.PriceString;
             }
 
             return null;

@@ -18,12 +18,6 @@ namespace Progress
         [JsonIgnore] public int CurrentLevelIndex => _currentLevelIndex;
 
         public event Action OnDemandSave;
-        
-        
-        public ProgressDataModel()
-        {
-            // Read data
-        }
 
         public double GetResourceAmount(ResourceType resourceType)
         {
@@ -68,9 +62,10 @@ namespace Progress
         public void SetGamePurchaseState(PurchaseType purchaseType, PurchaseState purchaseState)
         {
             _gamePurchaseStates[purchaseType] = purchaseState;
+            DemandSave();
         }
         
-        public void DemandSave()
+        private void DemandSave()
         {
             OnDemandSave?.Invoke();
         }

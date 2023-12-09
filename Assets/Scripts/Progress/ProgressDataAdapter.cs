@@ -40,6 +40,11 @@ namespace Progress
             
             Debug.Log("[ProgressDataAdapter] Target directory: " + _modelsDirectoryInfo.FullName);
         }
+        
+        private string GetFullFileName()
+        {
+            return Path.Combine(_modelsDirectoryInfo.FullName, ProgressModelFileName);
+        }
 
         private void LoadProgressModel()
         {
@@ -106,12 +111,7 @@ namespace Progress
         {
             File.Delete(GetFullFileName());
         }
-
-        private string GetFullFileName()
-        {
-            return Path.Combine(_modelsDirectoryInfo.FullName, ProgressModelFileName);
-        }
-
+        
         public void Dispose()
         {
             _progressDataModel.OnDemandSave -= OnDemandSave;
