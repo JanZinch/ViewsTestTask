@@ -16,35 +16,35 @@ namespace Purchases
         {
             { 
                 PurchaseType.Character1, 
-                new PurchaseForResource(new ResourcePrice(ResourceType.Tickets, 250), () =>
+                new PurchaseForResource(new ResourcePack(ResourceType.Tickets, 250), () =>
                 {
                     Debug.Log("Open character 1");
                 })
             },
             { 
                 PurchaseType.Character2, 
-                new PurchaseForResource(new ResourcePrice(ResourceType.Tickets, 500), () =>
+                new PurchaseForResource(new ResourcePack(ResourceType.Tickets, 500), () =>
                 {
                     Debug.Log("Open character 2");
                 })
             },
             { 
                 PurchaseType.Location1, 
-                new PurchaseForResource(new ResourcePrice(ResourceType.Tickets, 250), () =>
+                new PurchaseForResource(new ResourcePack(ResourceType.Tickets, 250), () =>
                 {
                     Debug.Log("Open location 1");
                 })
             },
             { 
                 PurchaseType.Location2, 
-                new PurchaseForResource(new ResourcePrice(ResourceType.Tickets, 500), () =>
+                new PurchaseForResource(new ResourcePack(ResourceType.Tickets, 500), () =>
                 {
                     Debug.Log("Open location 2");
                 })
             },
             { 
                 PurchaseType.Location3, 
-                new PurchaseForResource(new ResourcePrice(ResourceType.Tickets, 500), () =>
+                new PurchaseForResource(new ResourcePack(ResourceType.Tickets, 500), () =>
                 {
                     Debug.Log("Open location 3");
                 })
@@ -108,14 +108,20 @@ namespace Purchases
             return GetPrice(purchaseType).ResourceAmount.ToString(CultureInfo.InvariantCulture);
         }
 
-        public ResourcePrice GetPrice(PurchaseType purchaseType)
+        public string GetProfitString(PurchaseType purchaseType)
+        {
+            return string.Empty;
+        }
+
+
+        public ResourcePack GetPrice(PurchaseType purchaseType)
         {
             if (_purchases.TryGetValue(purchaseType, out PurchaseForResource purchase))
             {
                 return purchase.Price;
             }
 
-            return new ResourcePrice();
+            return new ResourcePack();
         }
         
     }

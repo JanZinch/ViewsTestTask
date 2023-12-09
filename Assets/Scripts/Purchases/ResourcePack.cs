@@ -2,12 +2,12 @@
 
 namespace Purchases
 {
-    public struct ResourcePrice
+    public struct ResourcePack
     {
         public ResourceType ResourceType { get; private set; }
         public double ResourceAmount { get; private set; }
-
-        public ResourcePrice(ResourceType resourceType, double resourceAmount)
+        
+        public ResourcePack(ResourceType resourceType, double resourceAmount)
         {
             ResourceType = resourceType;
             ResourceAmount = resourceAmount;

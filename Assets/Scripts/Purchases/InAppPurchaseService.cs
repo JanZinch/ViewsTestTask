@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using InAppResources;
 using UnityEngine;
 using UnityEngine.Purchasing;
@@ -13,6 +14,11 @@ namespace Purchases
 
         private readonly LinkedList<PendingPair> _pendingPairs = new LinkedList<PendingPair>();
         private readonly Dictionary<PurchaseType, InAppPurchase> _purchases;
+        private readonly Dictionary<PurchaseType, ResourcePack> _resourceProfits = new Dictionary<PurchaseType, ResourcePack>()
+        {
+            { PurchaseType.EpicChest, new ResourcePack(ResourceType.Tickets, 500) },
+            { PurchaseType.LuckyChest, new ResourcePack(ResourceType.Tickets, 1200) },
+        };
         
         private struct PendingPair
         {
@@ -36,16 +42,14 @@ namespace Purchases
                     PurchaseType.EpicChest, 
                     new InAppPurchase("epic_chest", ProductType.Consumable, "1.99$", () =>
                     {
-                        _resourceService.AppendResourceAmount(ResourceType.Tickets, 500);
-                        Debug.Log("Epic chest opened");
+                        AppendResourceProfit(PurchaseType.EpicChest); 
                     })
                 },
                 {
                     PurchaseType.LuckyChest, 
                     new InAppPurchase("lucky_chest", ProductType.Consumable, "4.99$", () =>
                     {
-                        _resourceService.AppendResourceAmount(ResourceType.Tickets, 1200);
-                        Debug.Log("Lucky chest opened");
+                        AppendResourceProfit(PurchaseType.LuckyChest);
                     })
                 }
             };
@@ -60,7 +64,19 @@ namespace Purchases
             
             UnityPurchasing.Initialize(this, builder);
         }
+
+        private ResourcePack GetResourceProfit(PurchaseType purchaseType)
+        {
+            return _resourceProfits.TryGetValue(purchaseType, out ResourcePack profit) ? profit : new ResourcePack();
+        }
         
+        private void AppendResourceProfit(PurchaseType purchaseType)
+        {
+            ResourcePack profit = GetResourceProfit(purchaseType);
+            _resourceService.AppendResourceAmount(profit.ResourceType, profit.ResourceAmount);
+            Debug.Log($"{purchaseType.ToString()} opened");
+        }
+
         public void OnInitialized(IStoreController controller, IExtensionProvider extensions)
         {
             _storeController = controller;
@@ -156,6 +172,11 @@ namespace Purchases
             }
 
             return null;
+        }
+
+        public string GetProfitString(PurchaseType purchaseType)
+        {
+            return GetResourceProfit(purchaseType).ResourceAmount.ToString(CultureInfo.InvariantCulture);
         }
     }
 }

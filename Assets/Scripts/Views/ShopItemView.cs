@@ -12,7 +12,9 @@ namespace Views
         [SerializeField] private PurchaseType _purchaseType;
         [SerializeField] private GameObject _purchasedSign;
         [SerializeField] private GameObject _priceView;
+        [SerializeField] private GameObject _profitView;
         [SerializeField] private TextMeshProUGUI _priceTextMesh;
+        [SerializeField] private TextMeshProUGUI _profitTextMesh;
         [SerializeField] private Button _buyButton;
         
         private IPurchaseService _purchaseService;
@@ -51,7 +53,20 @@ namespace Views
             {
                 _priceTextMesh.SetText(_purchaseService.GetPriceString(_purchaseType));
             }
-            
+
+            string possibleProfit = _purchaseService.GetProfitString(_purchaseType);
+
+            if (!string.IsNullOrEmpty(possibleProfit))
+            {
+                _profitView.SetActive(true);
+                _profitTextMesh.SetText($"x{possibleProfit}");
+            }
+            else
+            {
+                _profitView.SetActive(false);
+                _profitTextMesh.SetText(string.Empty);
+            }
+
         }
         
         private void OnDisable()
