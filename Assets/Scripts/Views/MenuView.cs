@@ -7,6 +7,7 @@ using Models;
 using Progress;
 using Purchases;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.UI;
 
 namespace Views
@@ -22,6 +23,7 @@ namespace Views
         [Space]
         [SerializeField] private DailyBonusesContainer _dailyBonusesContainer;
         [SerializeField] private PurchaseAccessConfig _purchaseAccessConfig;
+        [SerializeField] private AudioMixer _auidioMixer;
         
         private ViewsFactory _viewsFactory;
         private Settings _settings;
@@ -35,7 +37,7 @@ namespace Views
         
         private void Awake()
         {
-            _settings = new Settings();
+            _settings = new Settings(_auidioMixer);
             
             ProgressDataAdapter progressDataAdapter = new ProgressDataAdapter();
             _progressDataModel = progressDataAdapter.GetProgressModel();
