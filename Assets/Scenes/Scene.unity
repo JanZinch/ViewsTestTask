@@ -286,7 +286,6 @@ MonoBehaviour:
   _menuView: {fileID: 535042154}
   _viewsFactory: {fileID: 578552999}
   _audioMixer: {fileID: 24100000, guid: 217de45f6185be641b6f53802727e4e0, type: 2}
-  _audioManager: {fileID: 1516160258}
   _purchaseAccessConfig: {fileID: 11400000, guid: 2187991ffcf90b14288c407d07a09116, type: 2}
   _dailyBonusesContainer: {fileID: 11400000, guid: 52ee880324bf8524fa32d7a77d0a1db2, type: 2}
 --- !u!1 &845481087
@@ -692,7 +691,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e4b3ad322ae48779dee864226361ddf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _musicSource: {fileID: 1485118693}
   _soundSource: {fileID: 845481089}
 --- !u!1 &1537831285
 GameObject:
