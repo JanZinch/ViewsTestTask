@@ -4,7 +4,7 @@ namespace Purchases.Common
 {
     public interface IPurchaseService
     {
-        public bool IsPurchased(PurchaseType purchaseType);
+        public bool IsAlreadyPurchased(PurchaseType purchaseType);
         public bool CanBePurchased(PurchaseType purchaseType);
         public void TryPurchase(PurchaseType purchaseType, Action<bool> onCompleteCallback = null);
         public string GetPriceString(PurchaseType purchaseType);

@@ -3,7 +3,7 @@
     "m_SelectedPackage": {
         "deviceId": "R58M52KZNHR",
         "name": "com.Ivan.ViewsTestTask",
-        "processId": 18753,
+        "processId": 19610,
         "exited": false
     },
     "m_SelectedPriority": 0,
@@ -12,6 +12,30 @@
             "deviceId": "R58M52KZNHR",
             "name": "com.Ivan.ViewsTestTask",
             "processId": 18753,
+            "exited": true
+        },
+        {
+            "deviceId": "R58M52KZNHR",
+            "name": "com.Ivan.ViewsTestTask",
+            "processId": 15825,
+            "exited": true
+        },
+        {
+            "deviceId": "R58M52KZNHR",
+            "name": "com.Ivan.ViewsTestTask",
+            "processId": 30272,
+            "exited": true
+        },
+        {
+            "deviceId": "R58M52KZNHR",
+            "name": "com.Ivan.ViewsTestTask",
+            "processId": 14854,
+            "exited": true
+        },
+        {
+            "deviceId": "R58M52KZNHR",
+            "name": "com.Ivan.ViewsTestTask",
+            "processId": 19610,
             "exited": false
         }
     ],

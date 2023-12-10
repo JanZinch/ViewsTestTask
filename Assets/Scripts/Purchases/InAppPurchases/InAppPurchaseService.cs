@@ -22,18 +22,6 @@ namespace Purchases.InAppPurchases
             { PurchaseType.LuckyChest, new ResourcePack(ResourceType.Tickets, 1200) },
         };
         
-        private struct PendingPair
-        {
-            public InAppPurchase Purchase { get; private set; }
-            public Action<bool> OnCompleteCallback { get; private set; }
-
-            public PendingPair(InAppPurchase purchase, Action<bool> onCompleteCallback)
-            {
-                Purchase = purchase;
-                OnCompleteCallback = onCompleteCallback;
-            }
-        }
-        
         public InAppPurchaseService(ResourceService resourceService)
         {
             _resourceService = resourceService;
@@ -87,36 +75,34 @@ namespace Purchases.InAppPurchases
         
         public void OnInitializeFailed(InitializationFailureReason error)
         {
-            Debug.Log($"In-App Purchasing initialize failed: {error}");
+            Debug.LogWarning($"In-App Purchasing initialize failed: {error}");
+            _storeController = new FakeStoreController(_pendingPairs);
         }
 
         public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs purchaseEvent)
         {
-            Product product = purchaseEvent.purchasedProduct;
+            Product purchasedProduct = purchaseEvent.purchasedProduct;
             PendingPair foundPair = default;
             
             foreach (PendingPair pendingPair in _pendingPairs)
             {
-                if (pendingPair.Purchase.ProductId == product.definition.id)
+                if (pendingPair.Purchase.ProductId == purchasedProduct.definition.id)
                 {
                     foundPair = pendingPair;
                     break;
                 }
             }
 
-            if (foundPair.Purchase != null)
+            if (foundPair.ProcessIfPossible())
             {
-                foundPair.Purchase.ProcessPurchase?.Invoke();
-                foundPair.OnCompleteCallback?.Invoke(true);
-
                 _pendingPairs.Remove(foundPair);
                 
-                Debug.Log($"Purchase Complete - Product: {product.definition.id}");
+                Debug.Log($"Purchase Complete - Product: {purchasedProduct.definition.id}");
                 return PurchaseProcessingResult.Complete;
             }
             else
             {
-                Debug.LogError($"Process purchase failed - Product: {product.definition.id}");
+                Debug.LogError($"Process purchase failed - Product: {purchasedProduct.definition.id}");
                 return PurchaseProcessingResult.Pending;
             }
         }
@@ -126,10 +112,15 @@ namespace Purchases.InAppPurchases
             Debug.LogWarning($"Purchase failed - Product: '{product.definition.id}', PurchaseFailureReason: {failureReason}");
         }
         
-        public bool IsPurchased(PurchaseType purchaseType)
+        public bool IsAlreadyPurchased(PurchaseType purchaseType)
         {
             if (_purchases.TryGetValue(purchaseType, out InAppPurchase purchase))
             {
+                if (_storeController is FakeStoreController)
+                {
+                    return false;
+                }
+
                 Product product = _storeController.products.WithID(purchase.ProductId);
 
                 if (product.definition.type == ProductType.NonConsumable || 
@@ -144,7 +135,7 @@ namespace Purchases.InAppPurchases
         
         public bool CanBePurchased(PurchaseType purchaseType)
         {
-            if (IsPurchased(purchaseType))
+            if (IsAlreadyPurchased(purchaseType))
             {
                 return false;
             }

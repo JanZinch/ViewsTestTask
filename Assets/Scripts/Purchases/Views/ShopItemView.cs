@@ -53,7 +53,7 @@ namespace Purchases.Views
         
         private void UpdateView()
         {
-            bool isPurchased = _purchaseService.IsPurchased(_purchaseType);
+            bool isPurchased = _purchaseService.IsAlreadyPurchased(_purchaseType);
             
             _purchasedSign.SetActive(isPurchased);
             _priceView.SetActive(!isPurchased);

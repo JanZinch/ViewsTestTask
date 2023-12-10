@@ -65,14 +65,14 @@ namespace Purchases.PurchasesForResource
             _purchaseAccessConfig = purchaseAccessConfig;
         }
         
-        public bool IsPurchased(PurchaseType purchaseType)
+        public bool IsAlreadyPurchased(PurchaseType purchaseType)
         {
             return _progressDataModel.GetGamePurchaseState(purchaseType) == PurchaseState.Bought;
         }
         
         public bool CanBePurchased(PurchaseType purchaseType)
         {
-            if (IsPurchased(purchaseType))
+            if (IsAlreadyPurchased(purchaseType))
             {
                 return false;
             }
