@@ -1,5 +1,5 @@
-﻿using Factories;
-using Views;
+﻿using Bonuses.Views;
+using Core.Basics;
 
 namespace Bonuses
 {

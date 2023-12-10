@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using InAppResources;
+using Bonuses;
+using Bonuses.Models;
+using InGameResources;
 using Newtonsoft.Json;
-using Purchases;
+using Purchases.Common;
 
 namespace Progress
 {

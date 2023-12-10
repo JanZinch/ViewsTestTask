@@ -25,6 +25,10 @@ namespace Audio
             {
                 AudioManager.Instance.PlayOneShot(_sound);
             }
+            else
+            {
+                Debug.LogWarning("AudioManager instance is null");
+            }
         }
         
         private void OnDisable()

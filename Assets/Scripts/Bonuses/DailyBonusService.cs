@@ -1,6 +1,6 @@
 ﻿using System;
-using InAppResources;
-using Models;
+using Bonuses.Models;
+using InGameResources;
 using Progress;
 
 namespace Bonuses
