@@ -10,7 +10,6 @@ namespace Views
     {
         [SerializeField] private TextMeshProUGUI _headerText;
         [SerializeField] private Image _background;
-        [SerializeField] private Image _resourceIcon;
         [SerializeField] private TextMeshProUGUI _resourceAmountText;
         [SerializeField] private Button _button;
         
@@ -45,18 +44,14 @@ namespace Views
             OnClick?.Invoke(_index);
         }
 
-        public DailyBonusView InjectDependencies(DailyBonus dailyBonus)
+        public DailyBonusView Initialize(int bonusIndex, DailyBonus dailyBonus)
         {
+            _index = bonusIndex;
+            _headerText.SetText($"DAY{_index + 1}");
             _resourceAmountText.SetText($"X{dailyBonus.ResourceAmount}");
             return this;
         }
-
-        public void SetDayIndex(int index)
-        {
-            _index = index;
-            _headerText.SetText($"DAY{_index + 1}");
-        }
-
+        
         private void OnDisable()
         {
             _button.onClick.RemoveListener(OnClickInvoke);

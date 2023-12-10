@@ -1,4 +1,5 @@
-﻿using Factories;
+﻿using Bonuses;
+using Factories;
 using InAppResources;
 using Levels;
 using Roots;
@@ -17,11 +18,13 @@ namespace Views
         
         private GameRoot _gameRoot;
         private ViewsFactory _viewsFactory;
+        private DailyBonusService _dailyBonusService;
         
         public MenuView Initialize(GameRoot gameRoot)
         {
             _gameRoot = gameRoot;
             _viewsFactory = _gameRoot.ViewsFactory;
+            _dailyBonusService = gameRoot.DailyBonusService;
             _resourceCounter.Initialize(_gameRoot.ResourceService);
             
             return this;
@@ -47,7 +50,7 @@ namespace Views
         
         private void ShowDailyBonuses()
         {
-            _viewsFactory.ShowView<DailyBonusPresenter>().InjectDependencies(_viewsFactory, _gameRoot.DailyBonusService);
+            new DailyBonusExecutor(_viewsFactory, _dailyBonusService).Execute();
         }
         
         private void ShowShop()

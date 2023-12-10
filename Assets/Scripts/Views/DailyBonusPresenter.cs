@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Bonuses;
 using Factories;
-using Models;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -23,9 +22,7 @@ namespace Views
             
             for (int i = 0; i < _dailyBonusViews.Count; i++)
             {
-                _dailyBonusViews[i]
-                    .InjectDependencies(_dailyBonusService.Container.GetBonusByIndex(i))
-                    .SetDayIndex(i);
+                _dailyBonusViews[i].Initialize(i, _dailyBonusService.Container.GetBonusByIndex(i));
             }
 
             UpdateView();
@@ -46,10 +43,6 @@ namespace Views
         private void OnBonusViewClick(int bonusIndex)
         {
             _dailyBonusService.AcceptAvailableBonus();
-            
-            /*_viewsFactory.ShowView<CongratsDailyBonusView>()
-                .Initialize(bonusIndex, _dailyBonusesContainer.GetBonusByIndex(bonusIndex));*/
-            
             Hide();
         }
 

@@ -14,10 +14,9 @@ namespace Views
             _hideArea.onClick.AddListener(Hide);
         }
 
-        public CongratsDailyBonusView Initialize(int dayIndex, DailyBonus dailyBonus)
+        public CongratsDailyBonusView Initialize(int bonusIndex, DailyBonus dailyBonus)
         {
-            _dailyBonusView.InjectDependencies(dailyBonus).SetDayIndex(dayIndex);
-            
+            _dailyBonusView.Initialize(bonusIndex, dailyBonus);
             return this;
         }
         

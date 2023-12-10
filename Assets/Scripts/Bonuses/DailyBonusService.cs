@@ -10,6 +10,8 @@ namespace Bonuses
         private readonly ProgressDataModel _progressDataModel;
         private readonly DailyBonusesContainer _dailyBonusesContainer;
         private readonly ResourceService _resourceService;
+
+        public const int WeeklyBonusIndex = 6;
         
         public DailyBonusesContainer Container => _dailyBonusesContainer;
 

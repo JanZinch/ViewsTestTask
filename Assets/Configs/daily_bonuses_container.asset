@@ -25,3 +25,5 @@ MonoBehaviour:
     <ResourceAmount>k__BackingField: 15
   - <ResourceType>k__BackingField: 1
     <ResourceAmount>k__BackingField: 15
+  - <ResourceType>k__BackingField: 1
+    <ResourceAmount>k__BackingField: 20
