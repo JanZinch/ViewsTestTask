@@ -119,8 +119,7 @@ namespace Purchases
         {
             return string.Empty;
         }
-
-
+        
         public ResourcePack GetPrice(PurchaseType purchaseType)
         {
             if (_purchases.TryGetValue(purchaseType, out PurchaseForResource purchase))

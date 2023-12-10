@@ -1,5 +1,4 @@
 using System;
-using Audio;
 using Bonuses;
 using Factories;
 using InAppResources;
@@ -21,7 +20,6 @@ namespace Roots
         
         [Space]
         [SerializeField] private AudioMixer _audioMixer;
-        //[SerializeField] private AudioManager _audioManager;
         [SerializeField] private PurchaseAccessConfig _purchaseAccessConfig;
         [SerializeField] private DailyBonusesContainer _dailyBonusesContainer;
         
@@ -58,20 +56,17 @@ namespace Roots
             ResourceService = new ResourceService(ProgressDataModel);
             DailyBonusService = new DailyBonusService(ProgressDataModel, _dailyBonusesContainer, ResourceService);
             PurchaseForResourceService = new PurchaseForResourceService(ResourceService, ProgressDataModel, _purchaseAccessConfig);
-            
-            InitializeUnityServices(() =>
-            {
-                InAppPurchaseService = new InAppPurchaseService(ResourceService);
-            });
-            
         }
 
         private void Start()
         {
             Settings = new Settings(_audioMixer);
-            //_audioManager.Initialize(Settings);
-            
-            _menuView.Initialize(this);
+
+            InitializeUnityServices(() =>
+            {
+                InAppPurchaseService = new InAppPurchaseService(ResourceService);
+                _menuView.Initialize(this);
+            });
         }
     }
 }
