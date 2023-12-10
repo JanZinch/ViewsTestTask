@@ -53,7 +53,7 @@ namespace Levels
             //Canvas.ForceUpdateCanvases();
             Vector2 offset = (Vector2)_scrollRect.transform.InverseTransformPoint(_scrollRect.content.position) - (Vector2)_scrollRect.transform.InverseTransformPoint(target.position);
             Vector2 anchor = _scrollRect.content.anchoredPosition;
-            anchor.y = offset.y - 1000.0f;
+            anchor.y = offset.y + _scrollRect.GetComponent<RectTransform>().rect.height / 2.0f;
             _scrollRect.content.anchoredPosition = anchor;
         }
 
