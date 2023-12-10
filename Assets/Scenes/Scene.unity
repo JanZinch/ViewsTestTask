@@ -767,6 +767,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1152923036}
     m_Modifications:
+    - target: {fileID: 2251063263492845068, guid: 731242a57bf950447be01ac397de0e09, type: 3}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2251063263492845068, guid: 731242a57bf950447be01ac397de0e09, type: 3}
+      propertyPath: m_fontSize
+      value: 36
+      objectReference: {fileID: 0}
     - target: {fileID: 2251063265074406450, guid: 731242a57bf950447be01ac397de0e09, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0

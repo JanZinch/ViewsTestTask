@@ -65,7 +65,7 @@ namespace Core
 
             InitializeUnityServices(() =>
             {
-                InAppPurchaseService = new InAppPurchaseService(ResourceService);
+                InAppPurchaseService = new InAppPurchaseService(new ProfitDistributor(ResourceService));
                 _menuView.Initialize(this);
             });
         }

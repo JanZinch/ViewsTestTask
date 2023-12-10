@@ -1,4 +1,5 @@
 ﻿using System;
+using Purchases.Common;
 
 namespace Purchases.PurchasesForResource
 {

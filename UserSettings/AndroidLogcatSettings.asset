@@ -3,17 +3,11 @@
     "m_SelectedPackage": {
         "deviceId": "R58M52KZNHR",
         "name": "com.Ivan.ViewsTestTask",
-        "processId": 19610,
+        "processId": 23167,
         "exited": false
     },
     "m_SelectedPriority": 0,
     "m_KnownPackagesForSerialization": [
-        {
-            "deviceId": "R58M52KZNHR",
-            "name": "com.Ivan.ViewsTestTask",
-            "processId": 18753,
-            "exited": true
-        },
         {
             "deviceId": "R58M52KZNHR",
             "name": "com.Ivan.ViewsTestTask",
@@ -36,6 +30,12 @@
             "deviceId": "R58M52KZNHR",
             "name": "com.Ivan.ViewsTestTask",
             "processId": 19610,
+            "exited": true
+        },
+        {
+            "deviceId": "R58M52KZNHR",
+            "name": "com.Ivan.ViewsTestTask",
+            "processId": 23167,
             "exited": false
         }
     ],

@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using InGameResources;
 using Purchases.Common;
-using Purchases.PurchasesForResource;
 using UnityEngine;
 using UnityEngine.Purchasing;
 
@@ -11,20 +9,15 @@ namespace Purchases.InAppPurchases
 {
     public class InAppPurchaseService : IStoreListener, IPurchaseService
     {
-        private ResourceService _resourceService;
+        private readonly ProfitDistributor _profitDistributor;
         private IStoreController _storeController;
 
-        private readonly LinkedList<PendingPair> _pendingPairs = new LinkedList<PendingPair>();
         private readonly Dictionary<PurchaseType, InAppPurchase> _purchases;
-        private readonly Dictionary<PurchaseType, ResourcePack> _resourceProfits = new Dictionary<PurchaseType, ResourcePack>()
-        {
-            { PurchaseType.EpicChest, new ResourcePack(ResourceType.Tickets, 500) },
-            { PurchaseType.LuckyChest, new ResourcePack(ResourceType.Tickets, 1200) },
-        };
+        private readonly LinkedList<PendingPair> _pendingPairs = new LinkedList<PendingPair>();
         
-        public InAppPurchaseService(ResourceService resourceService)
+        public InAppPurchaseService(ProfitDistributor profitDistributor)
         {
-            _resourceService = resourceService;
+            _profitDistributor = profitDistributor;
             
             _purchases = new Dictionary<PurchaseType, InAppPurchase>()
             {
@@ -32,14 +25,14 @@ namespace Purchases.InAppPurchases
                     PurchaseType.EpicChest, 
                     new InAppPurchase("epic_chest", ProductType.Consumable, "1.99$", () =>
                     {
-                        AppendResourceProfit(PurchaseType.EpicChest); 
+                        _profitDistributor.AppendResourceProfit(PurchaseType.EpicChest);
                     })
                 },
                 {
                     PurchaseType.LuckyChest, 
                     new InAppPurchase("lucky_chest", ProductType.Consumable, "4.99$", () =>
                     {
-                        AppendResourceProfit(PurchaseType.LuckyChest);
+                        _profitDistributor.AppendResourceProfit(PurchaseType.LuckyChest);
                     })
                 }
             };
@@ -54,19 +47,7 @@ namespace Purchases.InAppPurchases
             
             UnityPurchasing.Initialize(this, builder);
         }
-
-        private ResourcePack GetResourceProfit(PurchaseType purchaseType)
-        {
-            return _resourceProfits.TryGetValue(purchaseType, out ResourcePack profit) ? profit : new ResourcePack();
-        }
         
-        private void AppendResourceProfit(PurchaseType purchaseType)
-        {
-            ResourcePack profit = GetResourceProfit(purchaseType);
-            _resourceService.AppendResourceAmount(profit.ResourceType, profit.ResourceAmount);
-            Debug.Log($"{purchaseType.ToString()} opened");
-        }
-
         public void OnInitialized(IStoreController controller, IExtensionProvider extensions)
         {
             _storeController = controller;
@@ -169,7 +150,7 @@ namespace Purchases.InAppPurchases
 
         public string GetProfitString(PurchaseType purchaseType)
         {
-            return GetResourceProfit(purchaseType).ResourceAmount.ToString(CultureInfo.InvariantCulture);
+            return _profitDistributor.GetResourceProfit(purchaseType).ResourceAmount.ToString(CultureInfo.InvariantCulture);
         }
     }
 }

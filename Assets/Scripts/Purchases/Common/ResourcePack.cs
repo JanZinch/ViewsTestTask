@@ -1,6 +1,6 @@
 ﻿using InGameResources;
 
-namespace Purchases.PurchasesForResource
+namespace Purchases.Common
 {
     public struct ResourcePack
     {
